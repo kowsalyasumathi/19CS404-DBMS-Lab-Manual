@@ -134,28 +134,32 @@ foreign key (OrderID) references Orders(OrderID));
 
 *Question 2*
 ---
-In the Books table, insert a record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
+Create a table named Invoices with the following constraints:
 
-ISBN             Title                      Author           Publisher   Year
----------------  -------------------------  ---------------  ----------  ----------
-978-1234567890   Introduction to AI         John Doe
-978-9876543210   Deep Learning              Jane Doe         TechPress   2022
-978-1122334455   Cybersecurity Essentials   Alice Smith                  2021
+InvoiceID as INTEGER should be the primary key.
+InvoiceDate as DATE.
+DueDate as DATE should be greater than the InvoiceDate.
+Amount as REAL should be greater than 0.
+For example:
 
-
-sql
+Test
+INSERT INTO Invoices (InvoiceID, InvoiceDate)
+VALUES (1, '2024-08-08'),(1,'2024-09-08');
+Result
+Error: UNIQUE constraint failed: Invoices.InvoiceID
+```
 SQL CODE
-INSERT INTO Books (ISBN,Title,Author)
-VALUES('978-1234567890','Introduction to AI','John Doe'); 
-INSERT INTO Books (ISBN,Title,Author,Publisher,Year)
-VALUES('978-9876543210','Deep Learning','Jane Doe','TechPress','2022');
-INSERT INTO Books (ISBN,Title,Author,Year) 
-VALUES('978-1122334455','Cybersecurity Essentials','Alice Smith','2021');
-
+create table Invoices(
+InvoiceID  INTEGER  primary key,
+InvoiceDate  DATE,
+DueDate  DATE check (DueDate>InvoiceDate),
+Amount  REAL check(Amount>0));
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/e95674a2-8a12-4f6d-bc9b-71a3b30fe466)
+![Screenshot (210)(1)](https://github.com/user-attachments/assets/beb4f590-0319-44e8-a58a-43c0904a30a9)
+
 
 *Question 3*
 ---
