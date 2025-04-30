@@ -37,64 +37,150 @@ HAVING condition;
 ```
 
 **Question 1**
---
--- Paste Question 1 here
+```
+How many patients are there in each city?
 
-```sql
--- Paste your SQL code below for Question 1
+Sample table: Patients Table
+For example:
+
+Result
+Address     TotalPatients
+----------  -------------
+Berlin      3
+Chicago     4
+Mexico      3
+```
+```
+select Address,count(*) as TotalPatients
+from Patients
+group by Address;
 ```
 
 **Output:**
 
-![Output1](output.png)
+![image](https://github.com/user-attachments/assets/9f5ef6f0-9a67-4d34-be9c-fd4465520670)
+
 
 **Question 2**
----
--- Paste Question 2 here
-
-```sql
--- Paste your SQL code below for Question 2
 ```
+How many medical records are there for each patient?
 
+Sample table:MedicalRecords Table
+For example:
+
+Result
+PatientID   TotalRecords
+----------  ------------
+4           4
+5           1
+6           1
+7           1
+8           1
+10          2
+
+```
+code:
+```
+select PatientID ,count(*) as TotalRecords
+from MedicalRecords
+group by PatientID;
+```
 **Output:**
 
-![Output2](output.png)
+![image](https://github.com/user-attachments/assets/e30c94d2-1756-4e52-8a27-a3cbf2269313)
+
 
 **Question 3**
----
--- Paste Question 3 here
+```
+How many medical records were created in each month?
 
-```sql
--- Paste your SQL code below for Question 3
+Sample table:MedicalRecords Table
+For example:
+
+Result
+Month       TotalRecords
+----------  ------------
+2023-12     2
+2024-01     6
+2024-02     2
+```
+sql code:
+```
+select strftime('%Y-%m',Date)as Month,count(*) as TotalRecords
+from MedicalRecords
+group by Month 
+order by Month;
 ```
 
 **Output:**
 
-![Output3](output.png)
+![image](https://github.com/user-attachments/assets/d940d929-1e6f-4aae-92ad-c84e8e8ba9a4)
+
 
 **Question 4**
 ---
--- Paste Question 4 here
+Write a SQL query to find the number of employees whose age is greater than 32.
+
+Sample table: employee
+
+
+id      name    age     address     salary
+
+1       Paul    32      California  20000
+
+4       Mark    25      Richtown    65000
+
+5       David   27       Texas      85000
+ 
+
+For example:
+
+Result
+COUNT
+----------
+5
+
 
 ```sql
--- Paste your SQL code below for Question 4
+select COUNT(id) as 
+COUNT  from employee
+where age>32;
 ```
 
 **Output:**
 
-![Output4](output.png)
+![WhatsApp Image 2025-04-30 at 08 42 14_6dce328f](https://github.com/user-attachments/assets/32edb697-412f-43a3-930b-61aa443b0739)
 
 **Question 5**
 ---
--- Paste Question 5 here
+Write a SQL query to find the difference between the maximum and minimum price of fruits?
+
+Table: fruits
+
+name        type
+----------  ----------
+id          INTEGER
+name        TEXT
+unit        TEXT
+inventory   INTEGER
+price       REAL
+ 
+
+For example:
+
+Result
+price_diff
+----------
+4.65
 
 ```sql
--- Paste your SQL code below for Question 5
+select max(price) - min(price) as price_diff
+from fruits ;
 ```
 
 **Output:**
+![WhatsApp Image 2025-04-30 at 08 42 14_4c71ca1f](https://github.com/user-attachments/assets/c4b9e506-481c-4135-8ce6-de1163261088)
 
-![Output5](output.png)
 
 **Question 6**
 ---
