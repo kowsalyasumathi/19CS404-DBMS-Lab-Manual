@@ -163,33 +163,39 @@ Amount  REAL check(Amount>0));
 
 *Question 3*
 ---
-Create a new table named item with the following specifications and constraints:
+Write a SQL query to add birth_date attribute as timestamp (datatype) in the table customer 
 
-1.item_id as TEXT and as primary key.
-2.item_desc as TEXT.
-3.rate as INTEGER.
-4.icom_id as TEXT with a length of 4.
-5.icom_id is a foreign key referencing com_id in the company table.
-6.The foreign key should cascade updates and deletes.
-7.item_desc and rate should not accept NULL.
+Sample table: customer
 
+ customer_id |   cust_name    |    city    | grade | salesman_id 
+-------------+----------------+------------+-------+-------------
+        3002 | Nick Rimando   | New York   |   100 |        5001
+        3007 | Brad Davis     | New York   |   200 |        5001
+        3005 | Graham Zusi    | California |   200 |        5002
+ 
 
-sql
+For example:
+
+Test	Result
+pragma table_info('customer');
+cid         name         type                               notnull     dflt_value  pk
+----------  -----------  ---------------------------------  ----------  ----------  ----------
+0           customer_id  integer primarykey auto increment  0                       0
+1           cust_name    varchar2(30)                       0                       0
+2           city         varchar(30)                        0                       0
+3           grade        number                             0                       0
+4           salesman_id  number                             0                       0
+5           birth_date   timestamp                          0                       0
+
+```
 SQL CODE
-CREATE TABLE item(
-item_id TEXT PRIMARY KEY,
-item_desc TEXT NOT NULL,
-rate INTEGER NOT NULL,
-icom_id TEXT CHECK(length(icom_id)=4),
-FOREIGN KEY (icom_id) REFERENCES company(com_id)
-ON UPDATE CASCADE
-ON DELETE CASCADE
+alter table customer 
+add column birth_date  timestamp;
 );
-
-
+```
 *Output:*
 
-![image](https://github.com/user-attachments/assets/d7d808cd-531c-4bc0-a3e8-9fc7d50e265e)
+![Screenshot (211)(1)](https://github.com/user-attachments/assets/ce9264f2-a072-41a0-88ca-9c5ec231ba95)
 
 *Question 4*
 ---
