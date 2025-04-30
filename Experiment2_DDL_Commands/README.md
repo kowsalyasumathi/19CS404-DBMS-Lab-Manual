@@ -105,23 +105,32 @@ CREATE TABLE Table_Name (
 
 *Question 1*
 --
-Create a table named Department with the following constraints:
-- DepartmentID as INTEGER should be the primary key.
-- DepartmentName as TEXT should be unique and not NULL.
-- Location as TEXT.
+Create a table named Shipments with the following constraints:
+ShipmentID as INTEGER should be the primary key.
+ShipmentDate as DATE.
+SupplierID as INTEGER should be a foreign key referencing Suppliers(SupplierID).
+OrderID as INTEGER should be a foreign key referencing Orders(OrderID).
+For example:
+
+Test	Result
+INSERT INTO Shipments (ShipmentID, ShipmentDate, SupplierID, OrderID) VALUES (2, '2024-08-03', 99, 1);
+Error: FOREIGN KEY constraint failed
 
 sql
 SQL CODE
-CREATE TABLE Department(
-DepartmentID INTEGER PRIMARY KEY,
-DepartmentName TEXT UNIQUE NOT NULL,
-Location TEXT
-);
+create table Shipments(
+ShipmentID  INTEGER  primary key,
+ShipmentDate  DATE,
+SupplierID  INTEGER,
+OrderID INTEGER,
+foreign key (SupplierID) references Suppliers(SupplierID),
+foreign key (OrderID) references Orders(OrderID));
 
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/131868f0-66a8-4b8e-99a6-4028b8f11e9d)
+![Screenshot (209)(1)](https://github.com/user-attachments/assets/4a0bfe31-8f0c-484c-b1fa-c38a31e78383)
+
 
 *Question 2*
 ---
