@@ -8,152 +8,163 @@ To study and implement aggregate functions, GROUP BY, and HAVING clause with sui
 ### Aggregate Functions
 These perform calculations on a set of values and return a single value.
 
-- **MIN()** – Smallest value  
-- **MAX()** – Largest value  
-- **COUNT()** – Number of rows  
-- **SUM()** – Total of values  
-- **AVG()** – Average of values
+- *MIN()* – Smallest value  
+- *MAX()* – Largest value  
+- *COUNT()* – Number of rows  
+- *SUM()* – Total of values  
+- *AVG()* – Average of values
 
-**Syntax:**
-```sql
+*Syntax:*
+sql
 SELECT AGG_FUNC(column_name) FROM table_name WHERE condition;
-```
+
 ### GROUP BY
 Groups records with the same values in specified columns.
-**Syntax:**
-```sql
+*Syntax:*
+sql
 SELECT column_name, AGG_FUNC(column_name)
 FROM table_name
 GROUP BY column_name;
-```
+
 ### HAVING
 Filters the grouped records based on aggregate conditions.
-**Syntax:**
-```sql
+*Syntax:*
+sql
 SELECT column_name, AGG_FUNC(column_name)
 FROM table_name
 GROUP BY column_name
 HAVING condition;
-```
-
-**Question 1**
-```
-How many patients are there in each city?
-
-Sample table: Patients Table
-For example:
-
-Result
-Address     TotalPatients
-----------  -------------
-Berlin      3
-Chicago     4
-Mexico      3
-```
-```
-select Address,count(*) as TotalPatients
-from Patients
-group by Address;
-```
-
-**Output:**
-
-![image](https://github.com/user-attachments/assets/9f5ef6f0-9a67-4d34-be9c-fd4465520670)
 
 
-**Question 2**
-```
-How many medical records are there for each patient?
+*Question 1*
+--
+What is the most common diagnosis among patients?
 
 Sample table:MedicalRecords Table
-For example:
+![image](https://github.com/user-attachments/assets/cb144231-d755-4408-8202-dafa08d37bd2)
 
-Result
-PatientID   TotalRecords
-----------  ------------
-4           4
-5           1
-6           1
-7           1
-8           1
-10          2
-
-```
-code:
-```
-select PatientID ,count(*) as TotalRecords
-from MedicalRecords
-group by PatientID;
-```
-**Output:**
-
-![image](https://github.com/user-attachments/assets/e30c94d2-1756-4e52-8a27-a3cbf2269313)
+sql
+SELECT Diagnosis,
+   COUNT(*) AS DiagnosisCount
+FROM MedicalRecords
+GROUP BY Diagnosis
+ORDER BY DiagnosisCount DESC
+LIMIT 1;
 
 
-**Question 3**
-```
-How many medical records were created in each month?
+*Output:*
 
-Sample table:MedicalRecords Table
-For example:
+![image](https://github.com/user-attachments/assets/3e67036d-281d-4c20-b19d-bafba7f96563)
 
-Result
-Month       TotalRecords
-----------  ------------
-2023-12     2
-2024-01     6
-2024-02     2
-```
-sql code:
-```
-select strftime('%Y-%m',Date)as Month,count(*) as TotalRecords
-from MedicalRecords
-group by Month 
-order by Month;
-```
-
-**Output:**
-
-![image](https://github.com/user-attachments/assets/d940d929-1e6f-4aae-92ad-c84e8e8ba9a4)
-
-
-**Question 4**
+*Question 2*
 ---
-Write a SQL query to find the number of employees whose age is greater than 32.
+How many appointments are scheduled for each patient?
 
-Sample table: employee
+Sample table: Appointments Table
 
-
-id      name    age     address     salary
-
-1       Paul    32      California  20000
-
-4       Mark    25      Richtown    65000
-
-5       David   27       Texas      85000
- 
-
-For example:
-
-Result
-COUNT
-----------
-5
+name                  type
+--------------------  ----------
+AppointmentID         INTEGER
+PatientID             INTEGER
+DoctorID              INTEGER
+AppointmentDateTime   DATETIME
+Purpose               TEXT
+Status                TEXT
 
 
-```sql
-select COUNT(id) as 
-COUNT  from employee
-where age>32;
-```
+sql
+SELECT PatientID,
+COUNT(*) AS TotalAppointments
+FROM Appointments
+GROUP BY PatientID;
 
-**Output:**
 
-![WhatsApp Image 2025-04-30 at 08 42 14_6dce328f](https://github.com/user-attachments/assets/32edb697-412f-43a3-930b-61aa443b0739)
+*Output:*
 
-**Question 5**
+![image](https://github.com/user-attachments/assets/acf11c5d-88ef-4213-989e-45badd33f6a8)
+
+*Question 3*
 ---
-Write a SQL query to find the difference between the maximum and minimum price of fruits?
+How many patients have insurance coverage valid in each year?
+
+Sample table:Insurance Table
+
+name               type
+-----------------  ----------
+InsuranceID        INTEGER
+PatientID          INTEGER
+InsuranceCompany   TEXT
+PolicyNumber       TEXT
+PolicyHolder       TEXT
+ValidityPeriod     TEXT
+
+
+sql
+SELECT strftime('%Y',ValidityPeriod) AS ValidityYear,
+COUNT(DISTINCT PatientID) AS TotalPatients
+FROM Insurance
+GROUP BY ValidityYear;
+
+
+*Output:*
+
+![image](https://github.com/user-attachments/assets/de728464-fb3c-4fbf-b700-b459d7f12fc2)
+
+*Question 4*
+---
+Write a SQL query to find  how many employees work in California?
+
+Table: employee
+
+name        type
+----------  ----------
+id          INTEGER
+name        TEXT
+age         INTEGER
+city        TEXT
+income      INTEGER
+
+
+sql
+SELECT 
+COUNT(*) AS employees_in_california
+FROM employee
+WHERE city = 'California';
+
+
+*Output:*
+
+![image](https://github.com/user-attachments/assets/4483a528-2f11-417e-b41c-bb8c621da50d)
+
+*Question 5*
+---
+Write a SQL query to find the total number of unique cities in the customer table?
+
+Table: customer
+
+name        type
+----------  ----------
+id          INTEGER
+name        TEXT
+city        TEXT
+email       TEXT
+phone       INTEGER
+
+
+sql
+SELECT COUNT(DISTINCT city)
+AS unique_cities
+FROM customer;
+
+
+*Output:*
+
+![image](https://github.com/user-attachments/assets/609b436e-5b83-4848-9b09-d7c34fdb5edb)
+
+*Question 6*
+---
+Write a SQL query to calculate total available amount of fruits that has a price greater than 0.5 . Return total Count. 
+Note: Inventory attribute contains amount of fruits
 
 Table: fruits
 
@@ -164,83 +175,105 @@ name        TEXT
 unit        TEXT
 inventory   INTEGER
 price       REAL
- 
-
-For example:
-
-Result
-price_diff
-----------
-4.65
-
-```sql
-select max(price) - min(price) as price_diff
-from fruits ;
-```
-
-**Output:**
-![WhatsApp Image 2025-04-30 at 08 42 14_4c71ca1f](https://github.com/user-attachments/assets/c4b9e506-481c-4135-8ce6-de1163261088)
 
 
-**Question 6**
+sql
+SELECT SUM(inventory) 
+AS total_available_amount 
+FROM fruits
+WHERE price > 0.5;
+
+
+*Output:*
+
+![image](https://github.com/user-attachments/assets/4e2baf2c-03c1-478e-ab96-78bb52bdf718)
+
+*Question 7*
 ---
--- Paste Question 6 here
+Write a SQL query to find the youngest employee in the company?
 
-```sql
--- Paste your SQL code below for Question 6
-```
+Table: employee
 
-**Output:**
+name        type
+----------  ----------
+id          INTEGER
+name        TEXT
+age         INTEGER
+city        TEXT
+income      INTEGER
 
-![Output6](output.png)
 
-**Question 7**
+sql
+SELECT name AS Employee_Name,
+age AS Age
+FROM employee
+ORDER BY age ASC
+LIMIT 1;
+
+
+
+*Output:*
+
+![image](https://github.com/user-attachments/assets/f795fa76-00d4-4910-9486-0fa8eed5b3f0)
+
+*Question 8*
 ---
--- Paste Question 7 here
+Write the SQL query that accomplishes the selection of total number of products for each category from the "products" table, and includes only those products where the minimum category ID is less than 3.
 
-```sql
--- Paste your SQL code below for Question 7
-```
+Sample table: products
+![image](https://github.com/user-attachments/assets/d31e75af-762b-4bc9-b695-a4801d30f3e4)
 
-**Output:**
+sql
+SELECT category_id,
+COUNT(product_name) AS 'count(product_name)'
+FROM products
+WHERE category_id < 3
+GROUP BY category_id;
 
-![Output7](output.png)
 
-**Question 8**
+*Output:*
+
+![image](https://github.com/user-attachments/assets/9f3ddca8-edb6-471c-ae5c-1a5d0866895c)
+
+*Question 9*
 ---
--- Paste Question 8 here
+Write an SQL query that groups the customer data into 5-year age intervals, calculates the minimum salary for each group, and excludes groups where the minimum salary is not less than 2000.
 
-```sql
--- Paste your SQL code below for Question 8
-```
+Table: customer1
+![image](https://github.com/user-attachments/assets/1bb42ba1-861f-4a2e-85fb-996909595b8e)
 
-**Output:**
+sql
+SELECT 
+(age/5) * 5 AS age_group,
+MIN(salary) AS 'MIN(salary)'
+FROM customer1
+GROUP BY (age / 5) * 5
+HAVING MIN(salary) < 2000
 
-![Output8](output.png)
 
-**Question 9**
+*Output:*
+
+![image](https://github.com/user-attachments/assets/0c8b928d-ecfa-4d41-bcd8-d02bd6d54349)
+
+*Question 10*
 ---
--- Paste Question 9 here
+Write the SQL query that accomplishes the grouping of data by joining date (jdate), calculates the total work hours for each date, and excludes dates where the total work hour sum is not greater than 40.
 
-```sql
--- Paste your SQL code below for Question 9
-```
+Sample table: employee1
+![image](https://github.com/user-attachments/assets/94c39ded-93b2-444c-b087-ee607c875d49)
 
-**Output:**
+ sql
+SELECT jdate,
+   SUM(workhour) AS 'SUM(workhour)'
+FROM employee1
+GROUP BY jdate
+HAVING SUM(workhour) > 40
+ORDER BY jdate;
 
-![Output9](output.png)
 
-**Question 10**
----
--- Paste Question 10 here
+*Output:*
 
-```sql
--- Paste your SQL code below for Question 10
-```
-
-**Output:**
-
-![Output10](output.png)
+![image](https://github.com/user-attachments/assets/76bdd1a0-44a9-4517-944f-135e00bc50a7)
 
 
 ## RESULT
