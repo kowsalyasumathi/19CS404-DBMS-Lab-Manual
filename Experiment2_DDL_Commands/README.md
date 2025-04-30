@@ -112,11 +112,11 @@ SupplierID as INTEGER should be a foreign key referencing Suppliers(SupplierID).
 OrderID as INTEGER should be a foreign key referencing Orders(OrderID).
 For example:
 
-Test	Result
+Test
 INSERT INTO Shipments (ShipmentID, ShipmentDate, SupplierID, OrderID) VALUES (2, '2024-08-03', 99, 1);
+Result:
 Error: FOREIGN KEY constraint failed
-
-sql
+```
 SQL CODE
 create table Shipments(
 ShipmentID  INTEGER  primary key,
@@ -125,7 +125,7 @@ SupplierID  INTEGER,
 OrderID INTEGER,
 foreign key (SupplierID) references Suppliers(SupplierID),
 foreign key (OrderID) references Orders(OrderID));
-
+```
 
 *Output:*
 
