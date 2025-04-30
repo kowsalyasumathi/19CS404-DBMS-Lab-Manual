@@ -352,10 +352,5 @@ WHERE city = 'Paris'
 
 ![image](https://github.com/user-attachments/assets/3a48d1ed-d615-419f-a7ba-bd66a1cea5d9)
 
-
-## RESULT
-Thus, the SQL queries to implement subqueries and views have been executed successfully.
-
-
 ## RESULT
 Thus, the SQL queries to implement subqueries and views have been executed successfully.
