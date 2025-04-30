@@ -105,6 +105,7 @@ CREATE TABLE Table_Name (
 
 *Question 1*
 --
+```
 Create a table named Shipments with the following constraints:
 ShipmentID as INTEGER should be the primary key.
 ShipmentDate as DATE.
@@ -118,6 +119,7 @@ Result:
 Error: FOREIGN KEY constraint failed
 ```
 SQL CODE
+```
 create table Shipments(
 ShipmentID  INTEGER  primary key,
 ShipmentDate  DATE,
@@ -134,6 +136,7 @@ foreign key (OrderID) references Orders(OrderID));
 
 *Question 2*
 ---
+```
 Create a table named Invoices with the following constraints:
 
 InvoiceID as INTEGER should be the primary key.
@@ -149,6 +152,7 @@ Result
 Error: UNIQUE constraint failed: Invoices.InvoiceID
 ```
 SQL CODE
+```
 create table Invoices(
 InvoiceID  INTEGER  primary key,
 InvoiceDate  DATE,
@@ -163,7 +167,7 @@ Amount  REAL check(Amount>0));
 
 *Question 3*
 ---
-Write a SQL query to add birth_date attribute as timestamp (datatype) in the table customer 
+```Write a SQL query to add birth_date attribute as timestamp (datatype) in the table customer 
 
 Sample table: customer
 
@@ -186,9 +190,9 @@ cid         name         type                               notnull     dflt_val
 3           grade        number                             0                       0
 4           salesman_id  number                             0                       0
 5           birth_date   timestamp                          0                       0
-
 ```
 SQL CODE
+```
 alter table customer 
 add column birth_date  timestamp;
 );
@@ -199,9 +203,68 @@ add column birth_date  timestamp;
 
 *Question 4*
 ---
-Write a SQL query to Add a new column State as text in the Student_details table.
-Sample table: Student_details
+```
+Insert all customers from Old_customers into Customers
 
+Table attributes are CustomerID, Name, Address, Email
+
+For example:
+
+Test	Result
+select * from Customers;
+CustomerID  Name             Address         Email
+----------  ---------------  --------------  ---------------------
+301         Michael Johnson  123 Elm Street  michael.j@example.com
+302         Sarah Lee        456 Oak Avenue  sarah.lee@example.com
+303         David Wilson     789 Pine Road   david.w@example.com
+
+```
+SQL CODE
+```
+insert into Customers(CustomerID,Name,Address,Email)
+select * from Old_customers;
+```
+*Output:*
+
+![Screenshot (212)(1)](https://github.com/user-attachments/assets/70cc7585-d735-427e-b009-7aa3e289b88c)
+
+*Question 5*
+---
+```
+Create a table named ProjectAssignments with the following constraints:
+AssignmentID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+ProjectID as INTEGER should be a foreign key referencing Projects(ProjectID).
+AssignmentDate as DATE should be NOT NULL.
+For example:
+
+Test	Result
+INSERT INTO ProjectAssignments (AssignmentID, EmployeeID, ProjectID, AssignmentDate) VALUES (2, 99, 1, '2024-01-03');
+Error: FOREIGN KEY constraint failed
+```
+SQL CODE
+```
+create table  ProjectAssignments(
+AssignmentID  INTEGER  primary key,
+EmployeeID  INTEGER,
+ProjectID  INTEGER,
+AssignmentDate  DATE  NOT NULL,
+foreign key (EmployeeID) references Employees(EmployeeID),
+foreign key (ProjectID) references Projects(ProjectID));
+```
+
+
+*Output:*
+
+![Screenshot (213)(1)](https://github.com/user-attachments/assets/479030b6-6017-441e-bf81-65698bed593b)
+
+
+*Question 6*
+---
+```
+Write a SQL query to Add a new column Country as text in the Student_details table.
+
+Sample table: Student_details
 
  cid              name             type   notnull     dflt_value  pk
 ---------------  ---------------  -----  ----------  ----------  ----------
@@ -210,141 +273,165 @@ Sample table: Student_details
 2                Gender           TEXT   1                       0
 3                Subject          VARCH  0                       0
 4                MARKS            INT (  0                       0
+For example:
 
+Test	Result
+pragma table_info('Student_details');
+cid         name        type        notnull     dflt_value  pk
+----------  ----------  ----------  ----------  ----------  ----------
+0           RollNo      int         0                       1
+1           Name        VARCHAR(10  1                       0
+2           Gender      TEXT        1                       0
+3           Subject     VARCHAR(30  0                       0
+4           MARKS       INT (3)     0                       0
+5           Country     TEXT        0                       0
 
-sql
+```
 SQL CODE
-ALTER TABLE Student_details
-ADD COLUMN State TEXT;
-
-
-*Output:*
-
-![image](https://github.com/user-attachments/assets/1530aa7c-f583-4515-afa8-f45f54d5f3b6)
-
-*Question 5*
----
-Insert a new product with ProductID 101, Name Laptop, Category Electronics, Price 1500, and Stock 50 into the Products table.
-
-sql
-SQL CODE
-INSERT INTO Products(ProductID, Name, Category,Price,Stock)
-VALUES(101,'Laptop','Electronics', 1500, 50);
-
-
-
-*Output:*
-
-![image](https://github.com/user-attachments/assets/386e6a61-da50-4fdf-bff1-f9be2d2fd41b)
-
-*Question 6*
----
-Create a table named Locations with the following columns:
-
-- LocationID as INTEGER
-- LocationName as TEXT
-- Address as TEXT
-
-sql
-SQL CODE
-CREATE TABLE Locations(
-LocationID INTEGER,
-LocationName TEXT,
-Address TEXT
+```
+alter table Student_details
+add column Country  TEXT;
 );
-
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/a6b4ffb4-8566-4a28-8abf-56bad07705a4)
+![Screenshot (214)(1)](https://github.com/user-attachments/assets/c5a68b60-8a31-4ac6-beee-fd99b0a21356)
+
 
 *Question 7*
 ---
-Insert all customers from Old_customers into Customers
-Table attributes are CustomerID, Name, Address, Email
+```
+Insert the below data into the Books table, allowing the Publisher and Year columns to take their default values.
 
-sql
+ISBN             Title                 Author
+---------------  --------------------  ---------------
+978-6655443321   Big Data Analytics    Karen Adams
+
+Note: The Publisher and Year columns will use their default values.
+ 
+ 
+For example:
+
+Test	Result
+SELECT ISBN, Title, Author
+FROM Books 
+
+
+ISBN             Title                 Author
+---------------  --------------------  ---------------
+978-6655443321   Big Data Analytics    Karen Adams
+
+```
 SQL CODE
-INSERT INTO Customers(CustomerID, Name, Address, Email)
-SELECT CustomerID, Name, Address, Email 
-FROM Old_customers;
-
-
-
+```
+insert into Books(ISBN,Title,Author)
+values('978-6655443321','Big Data Analytics','Karen Adams');
+```
 *Output:*
+![Screenshot (215)(1)](https://github.com/user-attachments/assets/a14f309b-e7fb-4ae2-a6d6-01db6811ac65)
 
-![image](https://github.com/user-attachments/assets/33bdd1f8-340e-47e8-918d-6f7240d91199)
 
 *Question 8*
 ---
-Write a SQL query to Add a new column named "discount" with the data type DECIMAL(5,2) to the "customer" table.
-Sample table: customer
+```
+Create a table named Orders with the following columns:
 
- customer_id |   cust_name    |    city    | grade | salesman_id 
--------------+----------------+------------+-------+-------------
-        3002 | Nick Rimando   | New York   |   100 |        5001
-        3007 | Brad Davis     | New York   |   200 |        5001
-        3005 | Graham Zusi    | California |   200 |        5002
+OrderID as INTEGER
+OrderDate as TEXT
+CustomerID as INTEGER
+For example:
 
+Test	Result
+pragma table_info('Orders');
+cid   name        type        notnull     dflt_value  pk
+----  ----------  ----------  ----------  ----------  ----------
+0     OrderID     INTEGER     0                       0
+1     OrderDate   TEXT        0                       0
+2     CustomerID  INTEGER     0                       0
 
-sql
+```
 SQL CODE
-ALTER TABLE customer
-ADD COLUMN discount DECIMAL(5,2);
-
+```
+create table Orders(
+OrderID  INTEGER,
+OrderDate TEXT,
+CustomerID  INTEGER);
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/aaa5683b-4d7e-41b5-bc0c-ef1fb1ac328d)
+![Screenshot (216)(1)](https://github.com/user-attachments/assets/d78efde8-096f-4563-a231-4b9029b1aec8)
+
 
 *Question 9*
 ---
-Create a table named ProjectAssignments with the following constraints:
-- AssignmentID as INTEGER should be the primary key.
-- EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
-- ProjectID as INTEGER should be a foreign key referencing Projects(ProjectID).
-- AssignmentDate as DATE should be NOT NULL.
+```
+In the Cusomers table, insert a record where some fields are NULL, another record where all fields are filled without any NULL values, and a third record where some fields are filled, and others are left as NULL.
 
-sql
+CustomerID  Name          Address      City        ZipCode
+----------  ------------  ----------   ----------  ----------
+306         Diana Prince  Themyscira
+307         Bruce Wayne   Wayne Manor  Gotham      10007
+308         Peter Parker  Queens                   11375
+ 
+
+For example:
+
+Test	Result
+SELECT * FROM Customers;
+CustomerID  Name          Address     City        ZipCode
+----------  ------------  ----------  ----------  ----------
+306         Diana Prince  Themyscira
+307         Bruce Wayne   Wayne Mano  Gotham      10007
+308         Peter Parker  Queens                  11375
+
+```
 SQL CODE
-CREATE TABLE ProjectAssignments(
-AssignmentID INTEGER PRIMARY KEY,
-EmployeeID INTEGER,
-ProjectID INTEGER,
-AssignmentDate DATE NOT NULL,
-FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID),
-FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID) 
-);
+```
+insert into Customers(CustomerID,Name,Address,City,ZipCode)
+values('306','Diana Prince','Themyscira','',''),
+('307','Bruce Wayne','Wayne Mano','Gotham','10007'),
+('308','Peter Parker','Queens','','11375');
+```
 
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/994a592f-f7e8-45e8-90ce-a50478105b6a)
+![Screenshot (217)(1)](https://github.com/user-attachments/assets/4d425c5d-eef5-46af-9e54-e9ddfb6802b0)
+
 
 *Question 10*
 ---
-Create a new table named contacts with the following specifications:
-- contact_id as INTEGER and primary key.
-- first_name as TEXT and not NULL.
-- last_name as TEXT and not NULL.
-- email as TEXT.
-- phone as TEXT and not NULL with a check constraint to ensure the length of phone is at least 10 characters.
+```
+Create a table named Attendance with the following constraints:
+AttendanceID as INTEGER should be the primary key.
+EmployeeID as INTEGER should be a foreign key referencing Employees(EmployeeID).
+AttendanceDate as DATE.
+Status as TEXT should be one of 'Present', 'Absent', 'Leave'.
+For example:
 
-sql
+Test	Result
+INSERT INTO Attendance (AttendanceID, EmployeeID, AttendanceDate, Status) VALUES (1, 1, '2024-08-01', 'Present');
+SELECT * FROM Attendance;
+AttendanceID  EmployeeID  AttendanceDate  Status
+------------  ----------  --------------  ----------
+1             1           2024-08-01      Present
+```
 SQL CODE
-CREATE TABLE contacts(
-contact_id INTEGER PRIMARY KEY,
-first_name TEXT NOT NULL,
-last_name  NOT NULL,
-email TEXT,
-phone TEXT NOT NULL CHECK (length(phone) >= 10)
-);
+```
+create table Attendance(
+AttendanceID  INTEGER  primary key,
+EmployeeID  INTEGER,
+AttendanceDate  DATE,
+Status  TEXT  check(status in('Present', 'Absent', 'Leave')),
+foreign key (EmployeeID) references Employees(EmployeeID));
+```
 
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/da798bcc-7895-4df9-9afd-2df8f9736ef0)
-
+![Screenshot (218)(1)](https://github.com/user-attachments/assets/fee135b9-58bd-4a52-b6d1-87cafbfefabd)
 
 ## RESULT
 Thus, the SQL queries to implement different types of constraints and DDL commands have been executed successfully.
