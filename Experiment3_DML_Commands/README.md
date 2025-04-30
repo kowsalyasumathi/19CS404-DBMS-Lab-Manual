@@ -48,73 +48,43 @@ SELECT column1, column2 FROM table_name WHERE condition;
 
 *Question 1*
 --
-Write a SQL statement to Increase the selling price per unit by 5% for product ID 15 who's sale is on '2023-01-31'.
-sales(sale_id,sale_date,product_id,quantity,sell_price,total_sell_price)
+```
+Write a SQL statement to Increase the selling price by 15% in the products table where quantity in stock is less than 50 and supplier ID is 10.
 
-sql
-UPDATE sales 
-SET sell_price = sell_price * 1.05
-WHERE product_id = 15 
-AND sale_date = '2023-01-31';
+Products Table 
 
+name          type       
+----------    ---------- 
+product_id     INT PRIMARY KEY        
+product_name   VARCHAR(10) 
+category       VARCHAR(50) 
+cost_price     DECIMAL(10) 
+sell_price     DECIMAL(10) 
+reorder_lv     INT        
+quantity       INT        
+supplier_id    INT           
+For example:
 
+Test	Result
+select changes();
+changes()
+----------
+4
+```
+sql code
+```
+update products
+set sell_price=sell_price*1.15
+where quantity <50 and
+supplier_id =10;
+```
 *Output:*
 
-![image](https://github.com/user-attachments/assets/88542a2f-63ea-4ed6-b96d-bbff89046950)
+![Screenshot (219)(1)](https://github.com/user-attachments/assets/ea2daf48-c7c8-4587-b7b2-4acb6ae2b9a3)
 
 *Question 2*
 ---
-Write a SQL statement to double the availability of the product with product_id 1.
-
-products table
-
----------------
-product_id
-product_name
-category_id
-availability
-
-
-sql
-UPDATE products
-SET availability = 2 * availability 
-WHERE product_id = 1;
-
-
-*Output:*
-
-![image](https://github.com/user-attachments/assets/31e17395-bc88-43b9-8325-9b4de8d45cd5)
-
-*Question 3*
----
-Write a SQL statement to Update the reorder level to 20 where the quantity in stock is less than 10 and product category is 'Snacks' in the products table.
-
-Products table
-
----------------
-product_id
-product_name
-category
-cost_price
-sell_price
-reorder_lvl
-quantity
-supplier_id
-
-
-sql
-UPDATE Products
-SET reorder_lvl = 20
-WHERE quantity < 10
-AND category = 'Snacks';
-
-
-*Output:*
-
-![image](https://github.com/user-attachments/assets/3a468be6-8cc4-49be-b97d-8f0d43bd9c29)
-
-*Question 4*
----
+```
 Write a SQL statement to update the product_name as 'Grapefruit' whose product_id is 4 in the products table.
 
 products table
@@ -124,124 +94,228 @@ product_id
 product_name
 category_id
 availability
+```
+SQL CODE 
+```
+update products
+set product_name='Grapefruit'
+where product_id =4;
+```
+*Output:*
+
+![Screenshot (220)(1)](https://github.com/user-attachments/assets/70e9f398-fe6f-4790-a6e8-579e7afbc95a)
 
 
-sql
-UPDATE products
-SET product_name = 'Grapefruit'
-WHERE product_id = 4;
+*Question 3*
+---
+```
+For  Increase the selling price per unit by 3 for all products supplied by supplier ID 4 in the sales table.
 
+PRODUCTS TABLE
+
+name               type
+-----------------  ---------------
+product_id         INT
+product_name       VARCHAR(100)
+category           VARCHAR(50)
+cost_price         DECIMAL(10,2)
+sell_price         DECIMAL(10,2)
+reorder_lvl        INT
+quantity           INT
+supplier_id        INT
+
+SALES TABLE
+name               type
+-----------------  ---------------
+sale_id            INT
+sale_date          DATE
+product_id         INT
+quantity           INT
+sell_price         DECIMAL(10,2)
+total_sell_price   DECIMAL(10,2)
+For example:
+
+Test	Result
+select changes();
+changes()
+----------
+1
+```
+SQL CODE 
+```
+update sales
+set sell_price=sell_price+3
+where product_id in (select product_id from products
+where supplier_id=4);
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/698ae9f9-c6ee-4ae7-989a-5cecec2b1c17)
+![Screenshot (221)(1)](https://github.com/user-attachments/assets/d33e294d-51d4-43a1-9b00-03ab1494ce31)
+
+
+*Question 4*
+---
+```
+Write a SQL statement to Update the grade of all customers in Chennai city as  5. 
+
+Customer table (customer_id,cust_name,city,grade,salesman_id)
+```
+SQL CODE
+```
+update customer
+set grade=5
+where city='Chennai';
+```
+
+*Output:*
+
+![Screenshot (222)(1)](https://github.com/user-attachments/assets/9f6f0708-60c6-45df-90b0-a6bf9452c548)
+
 
 *Question 5*
----
-Write a SQL statement to increase the salary of employees under the department 40, 90 and 110 according to the company rules.
-Salary will be increased by 25% for the department 40, 15% for department 90 and 10% for the department 110 and the rest of the departments will remain same.
+```
+Update the total selling price to quantity sold multiplied by updated selling price per unit where product id is 10 in the sales table.
 
-Employees table
+SALES TABLE
+name               type
+-----------------  ---------------
+sale_id            INT
+sale_date          DATE
+product_id         INT
+quantity           INT
+sell_price         DECIMAL(10,2)
+total_sell_price   DECIMAL(10,2)
+For example:
 
----------------
-employee_id
-first_name
-last_name
-email
-phone_number
-hire_date
-job_id
-salary
-commission_pct
-manager_id
-department_id
-
-
-sql
-UPDATE Employees
-SET salary =
-CASE 
-WHEN department_id = 40 THEN ROUND(salary * 1.25 ,2)
-WHEN department_id = 90 THEN ROUND(salary * 1.15 ,2)
-WHEN department_id = 110 THEN ROUND(salary * 1.10 ,2)
-ELSE salary
-END;
-
-
+Test	Result
+select changes();
+changes()
+----------
+3
+```
+SQL CODE 
+```
+update sales
+set total_sell_price=sell_price*quantity
+where product_id=10;
+```
 *Output:*
-
-![image](https://github.com/user-attachments/assets/a9b8d350-3301-483a-b5d9-902c0440f6b0)
+![Screenshot (223)(1)](https://github.com/user-attachments/assets/e1f98b9d-1c58-45bf-9ef4-1014a2d4b5ce)
 
 *Question 6*
 ---
-Write a SQL query to Delete customers from 'customer' table where 'WORKING_AREA' is 'New York'.
-Sample table: Customer
+```
+Write a SQL query to find all those customers who does not have any grade. Return customer_id, cust_name, city, grade, salesman_id.
 
-+-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
-|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
-+-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
-| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
-| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
-| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000.00 | BBBBSBB      | A008       |
+Sample table: customer
 
+customer_id |   cust_name    |    city    | grade | salesman_id 
+-------------+----------------+------------+-------+-------------
+        3002 | Nick Rimando   | New York   |   100 |        5001
+        3007 | Brad Davis     | New York   |   200 |        5001
+        3005 | Graham Zusi    | California |   200 |        5002
+For example:
 
-sql
-DELETE FROM Customer
-WHERE WORKING_AREA = 'New York';
-
+Result
+customer_id  cust_name    city        grade       salesman_id
+-----------  -----------  ----------  ----------  -----------
+1            John Mathew  New York                5000
+2            Michel John  Paris                   2000
+ 
+```
+SQL CODE
+```
+select customer_id,cust_name,city,grade,salesman_id 
+from customer 
+where grade is null;
+```
 
 *Output:*
+![Screenshot (226)(1)](https://github.com/user-attachments/assets/4695bf02-3dcb-4dcf-87bb-46339ceab3d8)
 
-![image](https://github.com/user-attachments/assets/783c4572-91d3-413e-a607-b667a53e456c)
 
 *Question 7*
 ---
-Write a SQL query to Delete customers from 'customer' table where 'CUST_NAME' contains the substring 'Holmes'.
-Sample table: Customer
+```
+Write a SQL query to Delete All Doctors with a NULL Last Name
 
-+-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+  
-|CUST_CODE  | CUST_NAME   | CUST_CITY   | WORKING_AREA | CUST_COUNTRY | GRADE | OPENING_AMT | RECEIVE_AMT | PAYMENT_AMT |OUTSTANDING_AMT| PHONE_NO     | AGENT_CODE |
-+-----------+-------------+-------------+--------------+--------------+-------+-------------+-------------+-------------+---------------+--------------+------------+
-| C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
-| C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
-| C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000.00 | BBBBSBB      | A008       |
+Sample table: Doctors
 
+attributes : doctor_id, first_name, last_name, specialization
+For example:
 
-sql
-DELETE FROM Customer
-WHERE CUST_NAME LIKE '%Holmes%';
+Test	Result
+SELECT * FROM doctors;
+doctor_id   first_name  last_name   specialization
+----------  ----------  ----------  --------------
+1           John        Smith       Cardiology
+2           Emily       Johnson     Orthopedics
+3           Michael     Brown       Pediatrics
+4           Febin                   Cardiology
+doctor_id   first_name  last_name   specialization
+----------  ----------  ----------  --------------
+1           John        Smith       Cardiology
+2           Emily       Johnson     Orthopedics
+3           Michael     Brown       Pediatrics
 
+```
+SQL CODE
+```
+delete from doctors
+where last_name is null;
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/5c6cc0a6-ba4d-4d87-8220-96e1f5494358)
+![Screenshot (224)(1)](https://github.com/user-attachments/assets/86932326-4a4b-42ae-a3b5-00438adf82ed)
+
 
 *Question 8*
 ---
-Write a SQL query to Delete All Doctors with a NULL Last Name.
-- Sample table: Doctors
-- attributes : doctor_id, first_name, last_name, specialization
+```
+Write a SQL query to Delete a Specific Surgery whose ID is 3
 
-sql
-DELETE FROM Doctors
-WHERE last_name IS NULL;
+Sample table: Surgeries
 
+attributes: surgery_id, patient_id, surgeon_id, surgery_date
+For example:
+
+Test	Result
+SELECT * FROM surgeries;
+surgery_id  patient_id  surgeon_id  surgery_date
+----------  ----------  ----------  ------------
+1           1           1           2024-01-15
+2           2           2           2024-02-28
+3           3           3           2024-03-25
+surgery_id  patient_id  surgeon_id  surgery_date
+----------  ----------  ----------  ------------
+1           1           1           2024-01-15
+2           2           2           2024-02-28
+```
+SQL CODE 
+```
+delete from surgeries
+where surgery_id=3;
+```
 
 *Output:*
 
-![image](https://github.com/user-attachments/assets/d679c15a-f249-49da-9400-cf84fc44206d)
+![Screenshot (225)(1)](https://github.com/user-attachments/assets/4f1e5ef4-eb06-47ed-9ddb-db788e49ccd5)
 
 *Question 9*
 ---
+```
 Write a SQL query to Delete all Doctors whose Specialization is either 'Pediatrics' or 'Cardiology' and Last Name is Brown.
 - Sample table: Doctors
 - attributes : doctor_id, first_name, last_name, specialization
-
-sql
+```
+SQL CODE
+```
 DELETE FROM Doctors
 WHERE specialization IN ('Pediatrics','Cardiology')
 AND last_name = 'Brown';
-
+```
 
 *Output:*
 
@@ -249,6 +323,7 @@ AND last_name = 'Brown';
 
 *Question 10*
 ---
+```
 Write a SQL query to Delete customers with 'GRADE' 2 and 'CUST_NAME' starting with 'M', and whose 'PAYMENT_AMT' is less than 3000
 Sample table: Customer
 
@@ -258,13 +333,13 @@ Sample table: Customer
 | C00013    | Holmes      | London      | London       | UK           |     2 |     6000.00 |     5000.00 |     7000.00 |       4000.00 | BBBBBBB      | A003       |
 | C00001    | Micheal     | New York    | New York     | USA          |     2 |     3000.00 |     5000.00 |     2000.00 |       6000.00 | CCCCCCC      | A008       |
 | C00020    | Albert      | New York    | New York     | USA          |     3 |     5000.00 |     7000.00 |     6000.00 |       6000.00 | BBBBSBB      | A008       |
-
-
-sql
+```
+SQL CODE
+```
 DELETE FROM Customer
 WHERE CUST_NAME LIKE 'M%'
 AND PAYMENT_AMT < 3000;
-
+```
 
 *Output:*
 
